@@ -6,65 +6,108 @@ export default function ResultPage() {
   const router = useRouter();
   const { answers } = router.query;
 
-  const [diagnosisCode, setDiagnosisCode] = useState('');
+  const [diagnosisCode, setDiagnosisCode] = useState("");
   const [workstyle, setWorkstyle] = useState(null);
+  const [summaryText, setSummaryText] = useState("");
 
-  useEffect(() => {
-    if (!answers) return;
+useEffect(() => {
+  if (!answers) return;
 
-    const parsedAnswers = answers.split(',').map(Number);
-    const code = calculateDiagnosisCode(parsedAnswers);
-    setDiagnosisCode(code);
+  const parsedAnswers = answers.split(',').map(Number);
+  const code = calculateDiagnosisCode(parsedAnswers);
+  setDiagnosisCode(code);
 
-    const grades = {
-      CP: code[0],
-      NP: code[1],
-      A:  code[2],
-      FC: code[3],
-      AC: code[4],
-    };
+  const grades = {
+    CP: code[0],
+    NP: code[1],
+    A: code[2],
+    FC: code[3],
+    AC: code[4],
+  };
+  const result = getWorkstyleFit(grades);
+  setWorkstyle(result);
 
-    const result = getWorkstyleFit(grades);
-    setWorkstyle(result);
-  }, [answers]);
+  // GA4 イベント送信（診断コード）
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "diagnosis_result", {
+      event_category: "Diagnosis",
+      event_label: code,
+    });
+
+    Object.entries(result).forEach(([key, value]) => {
+      if (value) {
+        window.gtag("event", "workstyle_fit", {
+          event_category: "Workstyle",
+          event_label: key,
+        });
+      }
+    });
+  }
+
+  // 要約を読み込み
+  fetch("/data/result_summary.json")
+    .then(res => res.json())
+    .then(data => {
+      const match = data.find(d => d.code === code);
+      if (match) {
+        setSummaryText(match.summary);
+      }
+    });
+}, [answers]);
+
 
   return (
-    <div className="p-8 max-w-xl mx-auto text-gray-800">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">診断結果</h1>
+    <div className="p-8 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">診断結果</h1>
 
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-6 border border-blue-100">
-        <p className="text-lg mb-2">あなたの診断コード：</p>
-        <p className="text-2xl font-mono font-bold text-center text-blue-600">{diagnosisCode}</p>
-      </div>
+      {diagnosisCode && (
+        <div className="mb-6 text-center">
+          <p className="text-lg">あなたの診断コード：</p>
+          <p className="text-2xl font-mono font-bold text-blue-600">{diagnosisCode}</p>
+          {summaryText && (
+            <p className="mt-4 text-gray-700 text-base whitespace-pre-wrap">{summaryText}</p>
+          )}
+        </div>
+      )}
 
       {workstyle && (
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <p className="text-xl font-semibold mb-4 text-gray-700">向いている働き方</p>
-          <ul className="space-y-2">
-            <li>フリーランス: <span className={workstyle.freelance ? "text-green-600" : "text-red-500"}>{workstyle.freelance ? "✅ 向いてる" : "❌ 向いてない"}</span></li>
-            <li>派遣: <span className={workstyle.haken ? "text-green-600" : "text-red-500"}>{workstyle.haken ? "✅ 向いてる" : "❌ 向いてない"}</span></li>
-            <li>転職（正社員）: <span className={workstyle.tenshoku ? "text-green-600" : "text-red-500"}>{workstyle.tenshoku ? "✅ 向いてる" : "❌ 向いてない"}</span></li>
-            <li>副業: <span className={workstyle.fukugyo ? "text-green-600" : "text-red-500"}>{workstyle.fukugyo ? "✅ 向いてる" : "❌ 向いてない"}</span></li>
-          </ul>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full border border-gray-300 text-sm md:text-base">
+            <thead className="bg-green-100">
+              <tr>
+                <th className="border px-4 py-2">働き方</th>
+                <th className="border px-4 py-2">適性</th>
+                <th className="border px-4 py-2">リンク</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { label: "正社員", key: "tenshoku", path: "/fulltime" },
+                { label: "フリーランス", key: "freelance", path: "/freelance" },
+                { label: "派遣", key: "haken", path: "/haken" },
+                { label: "副業", key: "fukugyo", path: "/sidejob" },
+              ].map(({ label, key, path }, i) => (
+                <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                  <td className="border border-gray-300 px-4 py-3 text-sm text-gray-800">{label}</td>
+                  <td className="border border-gray-300 px-4 py-3 text-center text-lg">
+                    {workstyle[key] ? "〇" : "ー"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-3 text-center">
+                    {workstyle[key] && (
+                      <button
+                        onClick={() => window.open(path, "_blank")}
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded shadow"
+                      >
+                        仕事を探す
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
   );
-
-}
-
-// --- ロジック部は今まで通りでOK --- //
-
-const factorMap = {
-  CP: [1, 2, 3, 4],
-  NP: [5, 6, 7, 8],
-  A:  [9, 10, 11, 12],
-  FC: [13, 14, 15, 16],
-  AC: [17, 18, 19, 20],
-};
-
-function scoreToGrade(score) {
-  if (score >= 4.0) return "A";
-  if (score >= 2.5) return "B";
-  return "C";
 }
