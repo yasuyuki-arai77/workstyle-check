@@ -10,17 +10,20 @@ export default function ResultPage() {
   const [diagnosisCode, setDiagnosisCode] = useState("");
   const [workstyle, setWorkstyle] = useState(null);
   const [summaryText, setSummaryText] = useState("");
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: "あなたの診断結果",
         text: "働き方診断やってみたよ！",
-        url: window.location.href,
+        url: `${window.location.origin}/result?code=${diagnosisCode}`,
       }).catch((error) => console.error("シェア失敗:", error));
     } else {
-      alert("この機能はスマホでのみ利用可能です。");
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert("診断結果のURLをクリップボードにコピーしました！");
+      });
     }
-  }
+  };
 
   useEffect(() => {
     let code = "";
@@ -29,50 +32,48 @@ export default function ResultPage() {
       const parsedAnswers = answers.split(',').map(Number);
       code = calculateDiagnosisCode(parsedAnswers);
     } else if (router.query.code) {
-      code = router.query.code.toUpperCase(); // ← 念のため大文字に
+      code = router.query.code.toUpperCase();
     }
 
-  if (!code) return;
+    if (!code) return;
 
-  setDiagnosisCode(code);
+    setDiagnosisCode(code);
 
-  const grades = {
-    CP: code[0],
-    NP: code[1],
-    A:  code[2],
-    FC: code[3],
-    AC: code[4],
-  };
-  const result = getWorkstyleFit(grades);
-  setWorkstyle(result);
+    const grades = {
+      CP: code[0],
+      NP: code[1],
+      A: code[2],
+      FC: code[3],
+      AC: code[4],
+    };
+    const result = getWorkstyleFit(grades);
+    setWorkstyle(result);
 
-  fetch("/data/result_summary.json")
-    .then(res => res.json())
-    .then(data => {
-      const match = data.find(d => d.code === code);
-      if (match) {
-        setSummaryText(match.summary);
-      }
-    });
+    fetch("/data/result_summary.json")
+      .then(res => res.json())
+      .then(data => {
+        const match = data.find(d => d.code === code);
+        if (match) {
+          setSummaryText(match.summary);
+        }
+      });
 
-  // GA4イベント送信（シェアからも飛ぶ用）
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", "diagnosis_result", {
-      event_category: "Diagnosis",
-      event_label: code,
-    });
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "diagnosis_result", {
+        event_category: "Diagnosis",
+        event_label: code,
+      });
 
-    Object.entries(result || {}).forEach(([key, value]) => {
-      if (value) {
-        window.gtag("event", "workstyle_fit", {
-          event_category: "Workstyle",
-          event_label: key,
-        });
-      }
-    });
-  }
-
-}, [answers, router.query.code]);
+      Object.entries(result || {}).forEach(([key, value]) => {
+        if (value) {
+          window.gtag("event", "workstyle_fit", {
+            event_category: "Workstyle",
+            event_label: key,
+          });
+        }
+      });
+    }
+  }, [answers, router.query.code]);
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-8 max-w-3xl mx-auto mt-8">
