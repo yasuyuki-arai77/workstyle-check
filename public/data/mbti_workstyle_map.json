@@ -1,0 +1,98 @@
+{
+  "INTJ": {
+    "freelance": true,
+    "tenshoku": true,
+    "haken": false,
+    "fukugyo": false
+  },
+  "ENTJ": {
+    "freelance": true,
+    "tenshoku": true,
+    "haken": false,
+    "fukugyo": true
+  },
+  "INFJ": {
+    "freelance": true,
+    "tenshoku": true,
+    "haken": false,
+    "fukugyo": false
+  },
+  "ENFJ": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": true
+  },
+  "INTP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": false,
+    "fukugyo": true
+  },
+  "ENTP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": false,
+    "fukugyo": true
+  },
+  "INFP": {
+    "freelance": true,
+    "tenshoku": true,
+    "haken": false,
+    "fukugyo": false
+  },
+  "ENFP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": false,
+    "fukugyo": true
+  },
+  "ISTJ": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": false
+  },
+  "ESTJ": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": false
+  },
+  "ISFJ": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": false
+  },
+  "ESFJ": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": true
+  },
+  "ISTP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": false,
+    "fukugyo": true
+  },
+  "ESTP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": true,
+    "fukugyo": true
+  },
+  "ISFP": {
+    "freelance": false,
+    "tenshoku": true,
+    "haken": true,
+    "fukugyo": true
+  },
+  "ESFP": {
+    "freelance": true,
+    "tenshoku": false,
+    "haken": true,
+    "fukugyo": true
+  }
+}

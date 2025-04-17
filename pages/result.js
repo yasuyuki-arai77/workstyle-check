@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { calculateDiagnosisCode, getWorkstyleFit } from '../utils/diagnosis';
 
 export default function ResultPage() {
@@ -9,16 +10,27 @@ export default function ResultPage() {
   const [diagnosisCode, setDiagnosisCode] = useState("");
   const [workstyle, setWorkstyle] = useState(null);
   const [summaryText, setSummaryText] = useState("");
-
-useEffect(() => {
-  let code = "";
-
-  if (answers) {
-    const parsedAnswers = answers.split(',').map(Number);
-    code = calculateDiagnosisCode(parsedAnswers);
-  } else if (router.query.code) {
-    code = router.query.code.toUpperCase(); // ← 念のため大文字に
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: "あなたの診断結果",
+        text: "働き方診断やってみたよ！",
+        url: window.location.href,
+      }).catch((error) => console.error("シェア失敗:", error));
+    } else {
+      alert("この機能はスマホでのみ利用可能です。");
+    }
   }
+
+  useEffect(() => {
+    let code = "";
+
+    if (answers) {
+      const parsedAnswers = answers.split(',').map(Number);
+      code = calculateDiagnosisCode(parsedAnswers);
+    } else if (router.query.code) {
+      code = router.query.code.toUpperCase(); // ← 念のため大文字に
+    }
 
   if (!code) return;
 
@@ -115,34 +127,18 @@ useEffect(() => {
             </table>
           </div>
         )}
-        {/* 「もう一度診断する」ボタン */}
-        <div className="flex justify-center mt-10">
+        <div className="text-center mt-10 space-x-4">
           <button
-            onClick={() => router.push('/question')}
-            className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded shadow"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            onClick={handleShare}
           >
-            もう一度診断する
+            📤 シェアする
           </button>
-        </div>
-
-        {/* SNSシェアボタン2つを横並びに */}
-        <div className="flex justify-center mt-4 space-x-4">
-          <a
-            href={`https://twitter.com/intent/tweet?text=自分に合った働き方を診断してみたよ！&url=https://workstyle-check.vercel.app/result?code=${diagnosisCode}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Xでシェア
-          </a>
-          <a
-            href={`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(`https://workstyle-check.vercel.app/result?code=${diagnosisCode}`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            LINEで送る
-          </a>
+          <Link href="/">
+            <button className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">
+              🏠 メインへ
+            </button>
+          </Link>
         </div>
       </div>
     </div>
