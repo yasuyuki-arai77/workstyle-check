@@ -17,7 +17,7 @@ export default function ResultPage() {
     if (navigator.share) {
       navigator.share({
         title: "あなたの診断結果",
-        text: "働き方診断やってみたよ！",
+        text: "働き方診断やってみたよ！ #workstyle-check",
         url: `${window.location.origin}/result?code=${diagnosisCode}`,
       }).catch((error) => console.error("シェア失敗:", error));
     } else {
