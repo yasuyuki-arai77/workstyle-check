@@ -1,98 +1,98 @@
 {
   "INTJ": {
     "freelance": true,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": false,
-    "fukugyo": false
+    "sidejob": false
   },
   "ENTJ": {
     "freelance": true,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": false,
-    "fukugyo": true
+    "sidejob": true
   },
   "INFJ": {
     "freelance": true,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": false,
-    "fukugyo": false
+    "sidejob": false
   },
   "ENFJ": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": true
+    "sidejob": true
   },
   "INTP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": false,
-    "fukugyo": true
+    "sidejob": true
   },
   "ENTP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": false,
-    "fukugyo": true
+    "sidejob": true
   },
   "INFP": {
     "freelance": true,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": false,
-    "fukugyo": false
+    "sidejob": false
   },
   "ENFP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": false,
-    "fukugyo": true
+    "sidejob": true
   },
   "ISTJ": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": false
+    "sidejob": false
   },
   "ESTJ": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": false
+    "sidejob": false
   },
   "ISFJ": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": false
+    "sidejob": false
   },
   "ESFJ": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": true
+    "sidejob": true
   },
   "ISTP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": false,
-    "fukugyo": true
+    "sidejob": true
   },
   "ESTP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": true,
-    "fukugyo": true
+    "sidejob": true
   },
   "ISFP": {
     "freelance": false,
-    "tenshoku": true,
+    "fulltime": true,
     "haken": true,
-    "fukugyo": true
+    "sidejob": true
   },
   "ESFP": {
     "freelance": true,
-    "tenshoku": false,
+    "fulltime": false,
     "haken": true,
-    "fukugyo": true
+    "sidejob": true
   }
 }

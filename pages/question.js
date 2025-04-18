@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Head from 'next/head';
 
 const questions = [
   // CP（厳しさ・ルール重視）
@@ -52,35 +53,47 @@ export default function QuestionPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">エゴグラム診断（仮）</h1>
+    <>
+      <Head>
+        <title>あなたに合った働き方診断 - Workstyle Check</title>
+        <meta name="description" content="20問のエゴグラム or MBTI診断で、あなたにぴったりな働き方を提案します！" />
+        <meta property="og:title" content="あなたに合った働き方診断" />
+        <meta property="og:description" content="性格診断で、あなたにぴったりな仕事を見つけよう！" />
+        <meta property="og:image" content="https://workstyle-check.vercel.app/ogp.png" />
+        <meta property="og:url" content="https://workstyle-check.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
 
-      {questions.map((q, index) => (
-        <div key={q.id} className="mb-4">
-          <p className="mb-1">{q.id}. {q.text}</p>
-          <div className="flex gap-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label key={num}>
-                <input
-                  type="radio"
-                  name={`q-${q.id}`}
-                  value={num}
-                  checked={answers[index] === num}
-                  onChange={() => handleChange(index, num)}
-                />
-                {num}
-              </label>
-            ))}
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-4">エゴグラム診断（仮）</h1>
+
+        {questions.map((q, index) => (
+          <div key={q.id} className="mb-4">
+            <p className="mb-1">{q.id}. {q.text}</p>
+            <div className="flex gap-4">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <label key={num}>
+                  <input
+                    type="radio"
+                    name={`q-${q.id}`}
+                    value={num}
+                    checked={answers[index] === num}
+                    onChange={() => handleChange(index, num)}
+                  />
+                  {num}
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      <button
-        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded"
-        onClick={handleSubmit}
-      >
-        診断する
-      </button>
-    </div>
+        <button
+          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded"
+          onClick={handleSubmit}
+        >
+          診断する
+        </button>
+      </div>
+    </>
   );
 }
