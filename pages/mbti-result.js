@@ -28,7 +28,7 @@ export default function MBTIResult() {
     if (navigator.share) {
       navigator.share({
         title: "あなたのMBTI診断結果",
-        text: "この診断、当たってるかも？",
+        text: `MBTIタイプ：${type.toUpperCase()} の診断やってみたよ！\n#workstyle-check #MBTI #${type.toUpperCase()}`,
         url: window.location.href,
       }).catch((error) => console.error("シェア失敗:", error));
     } else {
