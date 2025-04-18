@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { calculateDiagnosisCode, getWorkstyleFit } from '../utils/diagnosis';
+import Head from 'next/head';
 
 export default function ResultPage() {
   const router = useRouter();
@@ -76,72 +78,89 @@ export default function ResultPage() {
   }, [answers, router.query.code]);
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-8 max-w-3xl mx-auto mt-8">
-      <div className="p-8 max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">診断結果</h1>
+    <>
+      <Head>
+        <title>あなたに合った働き方診断 - Workstyle Check</title>
+        <meta name="description" content="20問のエゴグラム or MBTI診断で、あなたにぴったりな働き方を提案します！" />
+        <meta property="og:title" content="あなたに合った働き方診断" />
+        <meta property="og:description" content="性格診断で、あなたにぴったりな仕事を見つけよう！" />
+        <meta property="og:image" content="https://workstyle-check.vercel.app/ogp.png" />
+        <meta property="og:url" content="https://workstyle-check.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
 
-        {diagnosisCode && (
-          <div className="mb-6 text-center">
-            <p className="text-lg">あなたの診断コード：</p>
-            <p className="text-2xl font-mono font-bold text-blue-600">{diagnosisCode}</p>
-            {summaryText && (
-              <p className="mt-4 text-gray-700 text-base whitespace-pre-wrap">{summaryText}</p>
-            )}
-          </div>
-        )}
+      <div className="bg-white shadow-lg rounded-xl p-8 max-w-3xl mx-auto mt-8">
+        <div className="p-8 max-w-3xl mx-auto">
+          <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">診断結果</h1>
 
-        {workstyle && (
-          <div className="overflow-x-auto mb-6">
-            <table className="w-full border border-gray-300 text-sm md:text-base">
-              <thead className="bg-green-100">
-                <tr>
-                  <th className="border px-4 py-2">働き方</th>
-                  <th className="border px-4 py-2">適性</th>
-                  <th className="border px-4 py-2">リンク</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { label: "正社員", key: "tenshoku", path: "/fulltime" },
-                  { label: "フリーランス", key: "freelance", path: "/freelance" },
-                  { label: "派遣", key: "haken", path: "/haken" },
-                  { label: "副業", key: "fukugyo", path: "/sidejob" },
-                ].map(({ label, key, path }, i) => (
-                  <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
-                    <td className="border border-gray-300 px-4 py-3 text-sm text-gray-800">{label}</td>
-                    <td className="border border-gray-300 px-4 py-3 text-center text-lg">
-                      {workstyle[key] ? "〇" : "ー"}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-3 text-center">
-                      {workstyle[key] && (
-                        <button
-                          onClick={() => window.open(path, "_blank")}
-                          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded shadow"
-                        >
-                          仕事を探す
-                        </button>
-                      )}
-                    </td>
+          {diagnosisCode && (
+            <motion.div
+              className="mb-6 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            >
+              <p className="text-lg">あなたの診断コード：</p>
+              <p className="text-2xl font-mono font-bold text-blue-600">{diagnosisCode}</p>
+              {summaryText && (
+                <p className="mt-4 text-gray-700 text-base whitespace-pre-wrap">{summaryText}</p>
+              )}
+            </motion.div>
+          )}
+
+          {workstyle && (
+            <div className="overflow-x-auto mb-6">
+              <table className="w-full border border-gray-300 text-sm md:text-base">
+                <thead className="bg-green-100">
+                  <tr>
+                    <th className="border px-4 py-2">働き方</th>
+                    <th className="border px-4 py-2">適性</th>
+                    <th className="border px-4 py-2">リンク</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        <div className="text-center mt-10 space-x-4">
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            onClick={handleShare}
-          >
-            📤 シェアする
-          </button>
-          <Link href="/">
-            <button className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">
-              🏠 メインへ
+                </thead>
+                <tbody>
+                  {[
+                    { label: "正社員", key: "fulltime", path: "/fulltime" },
+                    { label: "フリーランス", key: "freelance", path: "/freelance" },
+                    { label: "派遣", key: "haken", path: "/haken" },
+                    { label: "副業", key: "sidejob", path: "/sidejob" },
+                  ].map(({ label, key, path }, i) => (
+                    <tr key={key} className={i % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                      <td className="border border-gray-300 px-4 py-3 text-sm text-gray-800">{label}</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center text-lg">
+                        {workstyle[key] ? "〇" : "ー"}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">
+                        {workstyle[key] && (
+                          <button
+                            onClick={() => window.open(path, "_blank")}
+                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded shadow"
+                          >
+                            仕事を探す
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>	
+            </div>
+          )}
+          <div className="text-center mt-10 space-x-4">
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              onClick={handleShare}
+            >
+              📤 シェアする
             </button>
-          </Link>
+            <Link href="/">
+              <button className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">
+                🏠 メインへ
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

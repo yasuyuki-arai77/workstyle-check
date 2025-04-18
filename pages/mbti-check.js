@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function MBTICheck() {
   const [selected, setSelected] = useState('');
@@ -31,29 +32,41 @@ export default function MBTICheck() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-center">MBTIタイプを選択してください</h1>
+    <>
+      <Head>
+        <title>あなたに合った働き方診断 - Workstyle Check</title>
+        <meta name="description" content="20問のエゴグラム or MBTI診断で、あなたにぴったりな働き方を提案します！" />
+        <meta property="og:title" content="あなたに合った働き方診断" />
+        <meta property="og:description" content="性格診断で、あなたにぴったりな仕事を見つけよう！" />
+        <meta property="og:image" content="https://workstyle-check.vercel.app/ogp.png" />
+        <meta property="og:url" content="https://workstyle-check.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
 
-      <select
-        className="w-full p-3 border rounded"
-        value={selected}
-        onChange={(e) => setSelected(e.target.value)}
-      >
-        <option value="">-- MBTIタイプを選択 --</option>
-        {mbtiOptions.map((option) => (
-          <option key={option.code} value={option.code}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="p-6 max-w-md mx-auto space-y-6">
+        <h1 className="text-2xl font-bold text-center">MBTIタイプを選択してください</h1>
 
-      <button
-        className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-        disabled={!selected}
-        onClick={handleSubmit}
-      >
-        診断結果を見る
-      </button>
-    </div>
+        <select
+          className="w-full p-3 border rounded"
+          value={selected}
+          onChange={(e) => setSelected(e.target.value)}
+        >
+          <option value="">-- MBTIタイプを選択 --</option>
+          {mbtiOptions.map((option) => (
+            <option key={option.code} value={option.code}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+
+        <button
+          className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+          disabled={!selected}
+          onClick={handleSubmit}
+        >
+          診断結果を見る
+        </button>
+      </div>
+    </>
   );
 }

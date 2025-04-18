@@ -1,25 +1,37 @@
-// pages/freelance.js
+// pages/fulltime.js
 
 import Head from 'next/head';
-export default function FreelancePage() {
+export default function FulltimePage() {
   const affiliates = [
     {
-      name: "Midworks",
-      features: "フリーランスでも社会保障つき。正社員並みの安心感。",
-      suitable: "初めてのフリーランス / 安定志向の人",
-      link: "https://px.a8.net/svt/ejp?a8mat=4539ZZ+AL1FXU+3TVC+BYDTT",
+      name: "社内SE転職ナビ",
+      features: "エンジニア専門の転職支援。社内SEを目指す人に特化！",
+      suitable: "エンジニア経験者 / 安定志向の人",
+      link: "https://px.a8.net/svt/ejp?a8mat=453CBW+402X6A+3IZO+I4NDE",
     },
     {
-      name: "IT求人ナビ フリーランス",
-      features: "中上級者向け高単価案件。キャリアアップ向き。",
-      suitable: "経験3年以上 / 単価重視の人",
-      link: "https://px.a8.net/svt/ejp?a8mat=4539ZZ+A6R1F6+4LXM+5YJRM",
+      name: "日本ドライバー人材センター",
+      features: "ドライバー専門の正社員求人。未経験OKの案件も多数。",
+      suitable: "運転が好き / 安定して働きたい人",
+      link: "https://px.a8.net/svt/ejp?a8mat=453CBW+4QVFEA+5NM0+601S1",
     },
     {
-      name: "ＰＥ−ＢＡＮＫ",
-      features: "全国対応 / 長期契約に強い / 地方にも案件あり",
-      suitable: "地方在住 / 安定稼働したい人",
-      link: "https://px.a8.net/svt/ejp?a8mat=4539ZZ+9QOC36+3SLI+5YRHE",
+      name: "HR CAREER AGENT",
+      features: "営業・販売・サービス業に特化した転職エージェント。",
+      suitable: "異業種からの転職 / サポートを受けたい人",
+      link: "https://af.moshimo.com/af/c/click?a_id=4992058&p_id=6422&pc_id=18145&pl_id=82412",
+    },
+    {
+      name: "ココカラ・接客プロ",
+      features: "接客・サービス業に特化。プロを目指す人の転職支援！",
+      suitable: "接客経験あり / スキルを活かしたい人",
+      link: "https://af.moshimo.com/af/c/click?a_id=4992067&p_id=6312&pc_id=17794&pl_id=81202",
+    },
+    {
+      name: "ココカラ・ワーク",
+      features: "接客・販売・飲食などの業界に強い転職支援サービス。",
+      suitable: "人と関わる仕事が好き / 職場環境を重視したい人",
+      link: "https://af.moshimo.com/af/c/click?a_id=4992068&p_id=6314&pc_id=17798&pl_id=81207",
     },
   ];
 
@@ -33,10 +45,10 @@ export default function FreelancePage() {
         <meta property="og:image" content="https://workstyle-check.vercel.app/ogp.png" />
         <meta property="og:url" content="https://workstyle-check.vercel.app/" />
         <meta name="twitter:card" content="summary_large_image" />
-      </Head>   
+      </Head>
       <div className="p-6 md:p-10 max-w-6xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-8 text-center text-blue-700">
-          あなたに合ったフリーランス案件はこちら
+          あなたに合った正社員転職はこちら
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
